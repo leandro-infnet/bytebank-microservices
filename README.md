@@ -4,7 +4,30 @@ Este repositório contém a refatoração do sistema bancário ByteBank, migrand
 
 ## 🏗️ Arquitetura do Sistema
 
-O sistema é composto por 3 artefatos principais:
+O sistema é composto por 3 artefatos principais que se comunicam conforme o diagrama abaixo:
+
+```mermaid
+graph TD
+    %% Nós (Nodes)
+    Client([Client / Postman])
+    Transaction[Transaction Service :8081]
+    Eureka[Eureka Server :8761]
+    Monolith[Bytebank Monolith :8080]
+    DB[(PostgreSQL :5432)]
+
+    style Transaction fill:#FF8300,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style Monolith fill:#1565C0,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style Eureka fill:#2E7D32,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style DB fill:#FFD600,stroke:#333,stroke-width:2px,color:#000000
+    style Client fill:#424242,stroke:#333,stroke-width:2px,color:#FFFFFF
+
+    %% Relacionamentos
+    Client -- "1. POST /deposit" --> Transaction
+    Transaction -.-> |"2. Service Discovery"| Eureka
+    Transaction -- "3. OpenFeign (REST)" --> Monolith
+    Monolith -- "4. JDBC (Update Saldo)" --> DB
+    Transaction -- "5. JDBC (Save Log)" --> DB
+```
 
 1.  🟢 **Eureka Server (Service Discovery):** O "porteiro" que gerencia o registro e localização dos serviços.
 2.  🔵 **Bytebank Monolith:** O serviço legado responsável pela gestão de **Usuários** e **Contas**.
