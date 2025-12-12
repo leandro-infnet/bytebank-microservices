@@ -1,15 +1,49 @@
+# =====================
+# Java & Maven (Build Artifacts)
+# =====================
 target/
 *.class
 
+# Logs
 *.log
-.DS_Store
 
+# =====================
+# IDEs
+# =====================
 .idea/
 *.iml
+*.iws
+*.ipr
 .vscode/
-.settings/
 .classpath
 .project
+.settings/
+.springBeans
 bin/
 
+# =====================
+# OS Junk Files
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Security
+# =====================
+.env
+*.key
+*.p12
+*.jks
+secret.properties
+
+# =====================
+# Test Coverage
+# =====================
+jacoco.exec
+/test-output/
+/surefire-reports/
+
+# =====================
+# Docker
+# =====================
 docker-compose.override.yml
